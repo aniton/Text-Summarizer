@@ -1,0 +1,6 @@
+conda install -c conda-forge textacy
+python3 -m spacy download en_core_web_lg
+export PYTHONPATH=.
+python -m spacy download en
+
+
