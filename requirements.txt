@@ -3,3 +3,5 @@ numpy
 flask
 textacy
 spacy
+BeautifulSoup4
+bleach

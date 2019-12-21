@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, render_template
-from sum import model
+from summary import model
 import json
 
 app = Flask(__name__)
@@ -7,7 +7,12 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return 'Text summarizer service. Please use /summarize to have sex'
+
+
+@app.route('/health')
+def health():
+    return 'alive', 200
 
 
 @app.route('/summarize', methods=['POST'])
@@ -15,8 +20,8 @@ def predict():
     text = request.get_data()
     topic = request.args.get('topic')
 
-    if not topic:
-        return jsonify({"error": "no topic present"}), 400
+    # if not topic:
+    #     return jsonify({"error": "no topic present"}), 400
     if not text.strip():
         return jsonify({"error": "empty text"}), 400
 

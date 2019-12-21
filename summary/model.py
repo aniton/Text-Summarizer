@@ -49,13 +49,13 @@ def summarize(text, topic):
     Counter = co(split_it)
 
     most_occur = Counter.most_common(1)[0][0].replace(',', '')
-    if topic:
+    if not most_occur:
         statements = textacy.extract.semistructured_statements(doc, topic)
     else:
         statements = textacy.extract.semistructured_statements(doc, most_occur)
 
     print(most_occur)
     for statement in statements:
+        #print(str(statement) + "\n")
         summary.append(statement)
-
     return str(summary), accuracy
