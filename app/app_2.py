@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, render_template
-#from parser import wikipedia
+from parser import wikipedia
 from summary import model
 import json
 
