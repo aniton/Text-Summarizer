@@ -1,0 +1,27 @@
+{
+  "name": "summarizer-frontend",
+  "version": "0.1.0",
+  "description": "A Text Summarizer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdalazizrashid/Text-Summarizer.git"
+  },
+  "keywords": [
+    "summarizer",
+    "geh",
+    "text"
+  ],
+  "author": "Abdalaziz Rashid",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abdalazizrashid/Text-Summarizer/issues"
+  },
+  "homepage": "https://github.com/abdalazizrashid/Text-Summarizer#readme",
+  "dependencies": {
+    "express": "4.17.1"
+  }
+}
