@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template
 from parser import wikipedia
 from summary import model
 import json
+import requests
 
 app = Flask(__name__)
 
@@ -21,14 +22,19 @@ def health():
 def parse():
     title = request.args.get('title')
     topic = request.args.get('topic')
+    if not topic:
+        return jsonify({"error": "no topic specified"}), 400
+    if not title:
+        url = "http://127.0.0.1:5000/summarize?title="
+    else:
+        url = "http://127.0.0.1:5000/summarize?title=" + title
 
-    text = wikipedia.wiki_parser(title)
+    text = wikipedia.wiki_parser(topic)
+    js_text = json.dumps(text)
+    text = requests.post(url, data=js_text)
+    summarized = text.json()
 
-    summary, accuracy = model.summarize(text, topic)
-
-    js = json.dumps({"summary": summary, "accuracy": accuracy, "text": str(text)})
-
-    return jsonify(js)
+    return jsonify(summarized)
 
 
 # @app.route('/wikipedia/url', methods=['POST'])

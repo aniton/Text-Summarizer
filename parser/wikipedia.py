@@ -18,7 +18,7 @@ def wiki_parser(title):
     DATA = R.json()
     try:
         html = DATA["parse"]["text"]["*"]
-        text = BeautifulSoup(html).get_text()
+        text = BeautifulSoup(html, features="html.parser").get_text()
 
         return text
 
