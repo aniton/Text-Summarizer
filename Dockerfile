@@ -34,6 +34,6 @@ pip install -r requirements.txt
 CMD ["export", "PYTHONPATH=.", " "python", "app.py"]
 CMD ["bash"]
 
-ENTRYPOINT [ "python" ]
+#ENTRYPOINT [ "python" ]
 
-CMD [ "app.py" ]
+#CMD [ "app.py" ]
