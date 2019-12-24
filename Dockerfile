@@ -28,12 +28,12 @@ ENV PATH /root/miniconda3/bin:$PATH
 RUN conda install -c conda-forge spacy &&\
 python -m spacy download en &&\
 conda install -c conda-forge textacy &&\
-python3 -m spacy download en_core_web_lg &&\
+#python3 -m spacy download en_core_web_lg &&\
 pip install -r requirements.txt
 
-CMD ["export", "PYTHONPATH=.", " "python", "app.py"]
-CMD ["bash"]
+#CMD ["export", "PYTHONPATH=.", " "python", "app.py"]
+#CMD ["bash"]
 
-ENTRYPOINT [ "python" ]
+#ENTRYPOINT [ "./setup.sh" ]
 
-CMD [ "app.py" ]
+#CMD [ "app.py" ]
