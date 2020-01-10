@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: summarizerweb
+  labels:
+    app: summarizer
+spec:
+  selector:
+    matchLabels:
+      app: summarizer
+      tier: web
+  template:
+    metadata:
+      labels:
+        app: summarizer
+        tier: web
+    spec:
+      containers:
+      - name: summarizer-app
+        image: gcr.io/black-portfolio-263510/summarizer:v1
+        ports:
+        - containerPort: 5000
