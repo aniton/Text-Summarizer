@@ -2,6 +2,25 @@ from flask import Flask, request, jsonify, render_template
 from summary import model
 import json
 
+
+
+from opencensus.ext.stackdriver import trace_exporter as stackdriver_exporter
+import opencensus.trace.tracer
+
+def initialize_tracer():
+    exporter = stackdriver_exporter.StackdriverExporter()
+    tracer = opencensus.trace.tracer.Tracer(
+        exporter=exporter,
+        sampler=opencensus.trace.tracer.samplers.AlwaysOnSampler()
+    )
+
+    return tracer
+# [END trace_setup_python_configure]
+
+tracer = initialize_tracer()
+app.config['TRACER'] = tracer
+
+
 app = Flask(__name__)
 
 
@@ -12,11 +31,19 @@ def home():
 
 @app.route('/health')
 def health():
-    return 'alive', 200
+    tracer = app.config['TRACER']
+    tracer.start_span(name='health')
+    
+    result = "Tracing requests"
+    tracer.end_span()
+    return 'alive', 200,  requests
 
 
 @app.route('/summarize', methods=['POST'])
 def predict():
+    tracer = app.config['TRACER']
+    tracer.start_span(name='summarize')
+
     text = request.get_data()
     topic = request.args.get('topic')
 
@@ -28,6 +55,11 @@ def predict():
     summary, accuracy = model.summarize(text, topic)
 
     js = json.dumps({"summary": summary, "accuracy": accuracy, "text": str(text)})
+    
+    result = "Tracing requests"
+    tracer.end_span()
+
+
 
     return jsonify(js)
 
