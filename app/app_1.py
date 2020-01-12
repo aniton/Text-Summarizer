@@ -19,11 +19,41 @@ def initialize_tracer():
 
     return tracer
 
+def log(message, log_name):
+    # [START logging_quickstart]
+    # Imports the Google Cloud client library
+    logtracer = app.config['TRACER']
+    tracer.start_span(name='log')
+    from google.cloud import logging
+
+    # Instantiates a client
+    logging_client = logging.Client()
+
+    # The name of the log to write to
+    # Selects the log to write to
+    logger = logging_client.logger(str(log_name))
+
+    # The data to log
+    
+
+    # Writes the log entry
+    logger.log_text(message)
+
+    print('Logged: {}'.format(message))
+    # [END logging_quickstart]
+    result = "Tracing requests"
+    tracer.end_span()
+
 app = Flask(__name__)
 
 
 @app.route('/')
 def home():
+    logtracer = app.config['TRACER']
+    tracer.start_span(name='home')
+    log("home dir", "root")
+    result = "Tracing requests"
+    tracer.end_span()
     return 'Text summarizer service. Please use /summarize'
 
 
@@ -31,7 +61,7 @@ def home():
 def health():
     tracer = app.config['TRACER']
     tracer.start_span(name='health')
-    
+    log("alive", "health_check")
     result = "Tracing requests"
     tracer.end_span()
     return 'alive', 200#,  requests
@@ -56,7 +86,7 @@ def predict():
 
     summary, accuracy = model.summarize(text, topic)
     health() 
-
+    log(str(summary), "summary")
     js = json.dumps({"summary": summary, "accuracy": accuracy, "text": str(text)})
     
     result = "Tracing requests"
