@@ -1,22 +1,23 @@
 from flask import Flask, request, jsonify, render_template
 from summary import model
 import json
-
+import os
 
 
 from opencensus.ext.stackdriver import trace_exporter as stackdriver_exporter
 import opencensus.trace.tracer
 
 def initialize_tracer():
-    exporter = stackdriver_exporter.StackdriverExporter()
+    project_id = os.environ['GCLOUD_PROJECT']
+    exporter = stackdriver_exporter.StackdriverExporter(
+        project_id=project_id
+    )
     tracer = opencensus.trace.tracer.Tracer(
         exporter=exporter,
         sampler=opencensus.trace.tracer.samplers.AlwaysOnSampler()
     )
 
     return tracer
-# [END trace_setup_python_configure]
-
 
 app = Flask(__name__)
 
@@ -33,11 +34,15 @@ def health():
     
     result = "Tracing requests"
     tracer.end_span()
-    return 'alive', 200,  requests
+    return 'alive', 200#,  requests
 
 
 @app.route('/summarize', methods=['POST'])
 def predict():
+    project_id = os.environ['GCLOUD_PROJECT']
+
+    tracer = initialize_tracer()
+
     tracer = app.config['TRACER']
     tracer.start_span(name='summarize')
 
@@ -50,6 +55,7 @@ def predict():
         return jsonify({"error": "empty text"}), 400
 
     summary, accuracy = model.summarize(text, topic)
+    health() 
 
     js = json.dumps({"summary": summary, "accuracy": accuracy, "text": str(text)})
     

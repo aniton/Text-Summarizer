@@ -8,7 +8,7 @@ WORKDIR /app
 RUN apt-get update -y && apt-get upgrade -y
 
 # Install package needed for Miniconda
-RUN apt-get install -y wget curl bzip2 libpython3-dev libboost-python-dev
+RUN apt-get install -y wget vim tmux curl bzip2 libpython3-dev libboost-python-dev
 
 # Download anaconda install
 RUN curl -O https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
