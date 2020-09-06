@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": ["ESNext"],
+    "module": "commonjs",
+    "typeRoots": ["./node_modules/@types"],
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "pretty": true,
+    "sourceMap": true,
+    "outDir": "./build",
+    "noEmit": false,
+    "esModuleInterop": true,
+    "baseUrl": "./src",
+    "paths": {
+      "interfaces/*": ["interfaces/*"],
+      "interfaces": ["interfaces"],
+      "services/*": ["services/*"],
+      "services": ["services"],
+      "models/*": ["models/*"],
+      "models": ["models"],
+      "helpers/*": ["helpers/*"],
+      "helpers": ["helpers"],
+      "config": ["config"]
+    }
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules"]
+}
